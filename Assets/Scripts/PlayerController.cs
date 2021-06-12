@@ -14,6 +14,8 @@ public class PlayerController : MonoBehaviour
     private Vector3 angledMoveDirection;
     private Vector3 velocity;
 
+    public Vector3 initial_position;
+
     [SerializeField] private bool isGrounded;
     [SerializeField] private float groundCheckDistance;
     [SerializeField] private LayerMask groundMask;
@@ -57,6 +59,8 @@ public class PlayerController : MonoBehaviour
     public Slider stamina_slider;
     private float stamina_cost = 0.6f;
 
+    public GameObject playerGameObject;
+
     GameManager gm;
     // https://www.mixamo.com/#/?page=1&query=archer
 
@@ -72,11 +76,27 @@ public class PlayerController : MonoBehaviour
 
     //REFERENCES
     private CharacterController controller;
+
+    private EnemyAi enemyAi;
     [SerializeField] private LayerMask whatIsEnemy;
+
+    private GameObject[] enemies;
+
+    void Awake()
+    {
+        // Vector3 initPos = new Vector3(-21.8f, 30.15f, 407.2f);
+        // transform.position = initPos;
+        // // initial_position = transform.position;
+    }
 
     private void Start()
     {
         gm = GameManager.GetInstance();
+        // Vector3 initPos = new Vector3(-21.8f, 30.15f, 407.2f);
+        // transform.position = initPos;
+        // initial_position = transform.position;
+
+        enemies = GameObject.FindGameObjectsWithTag("Enemy");
         
         controller = GetComponent<CharacterController>();
         characters = new List<GameObject>(max_character_num);
@@ -267,7 +287,6 @@ public class PlayerController : MonoBehaviour
 
     void Attack()
     {   
-        Debug.Log("Attack");
         AudioManager.PlaySFX(character_audios[character_num]);
         StartCoroutine(AttackRoutine());
         if (character_attack_ranges[character_num] > 0)
@@ -338,7 +357,6 @@ public class PlayerController : MonoBehaviour
 
     IEnumerator RangedAttack()
     {
-        Debug.Log("Ranged");
         yield return new WaitForSeconds(attack_time[character_num] -1);
         GameObject projectile = Instantiate(character_projectiles[character_num], attackPoint.transform.position, Quaternion.identity);
         projectile.transform.LookAt(projectileGuide);
@@ -380,5 +398,19 @@ public class PlayerController : MonoBehaviour
     {
         Gizmos.color = Color.red;
         Gizmos.DrawWireSphere(attackPoint.transform.position, character_attack_ranges[character_num]);
+    }
+
+    public void Reset()
+    {
+        // transform.position = initial_position;
+        // transform.localRotation = Quaternion.Euler(0.0f, -transform.rotation.y, 0.0f);
+        for (int i = 0; i < enemies.Length; i++)
+        {
+            enemyAi = enemies[i].GetComponent<EnemyAi>();
+            enemyAi.Reset();
+        }
+        // playerGameObject.transform.position = new Vector3(-21.8f, 30.15f, 407.2f);
+        // Debug.Log(player.transform.position);
+        
     }
 }

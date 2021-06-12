@@ -132,7 +132,6 @@ public class EnemyAiMelee : MonoBehaviour
 
     public void TakeDamage(int damage)
     {
-        Debug.Log(damage);
         health -= damage;
 
         if (health <= 0) Invoke(nameof(DestroyEnemy), 0.5f);

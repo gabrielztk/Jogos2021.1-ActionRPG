@@ -10,6 +10,9 @@ public class UI_MENU : MonoBehaviour
    public Text settings_button;
    public Text controls_button;
 
+   public GameObject player;
+   public PlayerController playerController;
+
     GameManager gm;
    private void OnEnable()
    {
@@ -25,6 +28,10 @@ public class UI_MENU : MonoBehaviour
     {
         gm.last_state = "MENU";
         gm.ChangeState(GameManager.GameState.GAME);
+        player.transform.position = new Vector3(-21.8f, 30.15f, 407.2f);
+        playerController.Reset();
+        player.transform.position = new Vector3(-21.8f, 30.15f, 407.2f);
+        Debug.Log(player.transform.position);
     }
 
     public void Settings()

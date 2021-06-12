@@ -9,7 +9,7 @@ public class Projectile : MonoBehaviour
 
     private void Start()
     {
-        Debug.Log("hi");
+
         gm = GameManager.GetInstance();
     }
 
@@ -24,7 +24,6 @@ public class Projectile : MonoBehaviour
 
     private void OnCollisionEnter(Collision collision)
     {
-        Debug.Log("colide");
         if (collision.gameObject.tag == "Player")
         {
             collision.gameObject.GetComponent<PlayerController>().TakeDamage(damage);

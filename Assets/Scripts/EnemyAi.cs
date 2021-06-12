@@ -145,7 +145,6 @@ public class EnemyAi : MonoBehaviour
                 Collider[] hitPlayer = Physics.OverlapSphere(attackPoint.transform.position, attackRange, whatIsPlayer);
                 foreach(Collider player in hitPlayer)
                 {
-                    Debug.Log("hit player");
                     player.GetComponent<PlayerController>().TakeDamage(4);
                 }
             }
@@ -204,7 +203,8 @@ public class EnemyAi : MonoBehaviour
     }
     private void DestroyEnemy()
     {
-        Destroy(gameObject);
+        gameObject.SetActive(false);
+        // Destroy(gameObject);
     }
 
     private void OnDrawGizmosSelected()
@@ -220,5 +220,13 @@ public class EnemyAi : MonoBehaviour
             Gizmos.color = Color.blue;
             Gizmos.DrawWireSphere(attackPoint.transform.position, attackRange);
         }
+    }
+
+    public void Reset()
+    {
+        transform.position = initial_postion;
+        attacking = false;
+        moving = true;
+        gameObject.SetActive(true);
     }
 }
