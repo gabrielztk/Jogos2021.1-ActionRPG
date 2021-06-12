@@ -6,7 +6,9 @@ public class UI_CONTROLS : MonoBehaviour
     public Text tittle;
     public Text movement;
     public Text chest;
+    public Text change;
     public Text sprint;
+    public Text attack; 
 
     public Text back_button;
 
@@ -16,7 +18,9 @@ public class UI_CONTROLS : MonoBehaviour
         gm = GameManager.GetInstance();
         tittle.text = "GAME CONTROLS";
         movement.text = "USE WASD OR THE ARROWKEYS TO MOVE";
-        chest.text = "USE THE SPACE BAR TO TAKE CHESTS";
+        change.text = "USE 1, 2, 3 or 4 TO CHANGE CHARACTERS";
+        chest.text = "MOUSE LEFT CLICK TO TAKE CHESTS";
+        attack.text = "MOUSE LEFT CLICK TO ATTACK ENEMIES";
         sprint.text = "USE THE LEFT SHIFT KEY TO SPRINT";
         back_button.text = "BACK";
     }
