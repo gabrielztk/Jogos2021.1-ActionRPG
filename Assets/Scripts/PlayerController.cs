@@ -79,6 +79,7 @@ public class PlayerController : MonoBehaviour
 
     private EnemyAi enemyAi;
     [SerializeField] private LayerMask whatIsEnemy;
+    [SerializeField] private LayerMask whatIsChest;
 
     private GameObject[] enemies;
 
@@ -94,7 +95,7 @@ public class PlayerController : MonoBehaviour
         gm = GameManager.GetInstance();
         // Vector3 initPos = new Vector3(-21.8f, 30.15f, 407.2f);
         // transform.position = initPos;
-        // initial_position = transform.position;
+        initial_position = transform.position;
 
         enemies = GameObject.FindGameObjectsWithTag("Enemy");
         
@@ -153,6 +154,11 @@ public class PlayerController : MonoBehaviour
 
     private void Update()
     {
+        if (gm.gameState == GameManager.GameState.ENDGAME)
+        {
+            transform.position = initial_position;
+            return;
+        }
         if (gm.gameState != GameManager.GameState.GAME)
         {
             PauseAmbience();
@@ -353,6 +359,13 @@ public class PlayerController : MonoBehaviour
         {
             enemy.GetComponent<EnemyAi>().TakeDamage(4);
         }
+
+        Collider[] hitChest = Physics.OverlapSphere(attackPoint.transform.position, character_attack_ranges[character_num], whatIsChest);
+        foreach(Collider enemy in hitChest)
+        {
+            gm.win = true;
+            gm.ChangeState(GameManager.GameState.ENDGAME);
+        }
     }
 
     IEnumerator RangedAttack()
@@ -387,7 +400,13 @@ public class PlayerController : MonoBehaviour
     {
         health_slider.value -= damage;
 
-        if (health_slider.value <= 0) Invoke(nameof(DestroyEnemy), 0.5f);
+        if (health_slider.value <= 0)
+        {
+            gm.win = false;
+            health_slider.value = maxHealth;
+            // Invoke(nameof(DestroyEnemy), 0.5f);
+            gm.ChangeState(GameManager.GameState.ENDGAME);
+        }
     }
     private void DestroyEnemy()
     {
@@ -404,6 +423,7 @@ public class PlayerController : MonoBehaviour
     {
         // transform.position = initial_position;
         // transform.localRotation = Quaternion.Euler(0.0f, -transform.rotation.y, 0.0f);
+        health_slider.value = maxHealth;
         for (int i = 0; i < enemies.Length; i++)
         {
             enemyAi = enemies[i].GetComponent<EnemyAi>();

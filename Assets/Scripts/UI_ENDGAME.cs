@@ -16,7 +16,7 @@ public class UI_ENDGAME : MonoBehaviour
 
         button.text = "MAIN MENU";
 
-        if (gm.points == 4)
+        if (gm.win == true)
         {
             message.text = "VOCÊ GANHOU!!!";
         }  
@@ -24,6 +24,7 @@ public class UI_ENDGAME : MonoBehaviour
         {
             message.text = "VOCÊ PERDEU!!!";
         }
+        gm.win = false;
     }
     
     public void Voltar()

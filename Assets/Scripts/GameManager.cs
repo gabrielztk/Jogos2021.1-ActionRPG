@@ -7,6 +7,8 @@ public class GameManager
     private static GameManager _instance;
     public string last_state;
 
+    public bool win;
+
     public static GameManager GetInstance()
     {
         if(_instance == null)
@@ -52,7 +54,7 @@ public class GameManager
 
     private void Reset()
     {
-        // lifes = 3;
+        win = false;
         points = 0;
     }
 
